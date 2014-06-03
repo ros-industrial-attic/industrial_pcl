@@ -16,7 +16,7 @@ roslaunch industrial_pcl_utilities pcl_msg_generate.launch
 - Takes optional arguments that modify certain properties of the point cloud:
   
   * -f : path to pcd file
-  * -r : publishing rate (optional)
+  * -r : publishing rate (s) (optional)
   * -n : noise (meters) (optional)
   * -i : frame id (optional)
   * -h : help description
