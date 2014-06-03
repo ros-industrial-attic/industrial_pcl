@@ -30,11 +30,11 @@
 
 using namespace boost::filesystem;
 
-const float DEFAULT_NOISE_RANGE = 0.005f;
-const float DEFAULT_PUBLISH_RATE = 0.5f;
+const double DEFAULT_NOISE_RANGE = 0.005f;
+const double DEFAULT_PUBLISH_RATE = 0.5f;
 const std::string CLOUD_TRANSFORM_PARAM = "cloud_transform";
 const std::string DEFAULT_FRAME_ID = "world_frame";
-const std::string POINT_CLOUD_TOPIC="sensor_point_cloud";
+const std::string POINT_CLOUD_TOPIC="pcd_data";
 const std::string HELP_TEXT="\n-h Help information\n-f <file name>\n"
 		"-n <noise range value (m)>\n-r <publish rate (sec)>\n-i <frame id> ";
 
@@ -67,16 +67,10 @@ int main(int argc,char** argv)
 {
 	ros::init(argc,argv,"point_cloud_publisher_node");
 
-	// point cloud publisher
-	ros::NodeHandle nh;
-	ros::NodeHandle ph("~"); // private handle for parameter reading
-	ros::Publisher point_cloud_pub = nh.advertise<sensor_msgs::PointCloud2>(
-			POINT_CLOUD_TOPIC,1);
-
 	// arguments
 	path file_path;
-	float noise_range = DEFAULT_NOISE_RANGE;
-	float rate = DEFAULT_PUBLISH_RATE;
+	double noise_range = DEFAULT_NOISE_RANGE;
+	double rate = DEFAULT_PUBLISH_RATE;
 	std::string frame_id = DEFAULT_FRAME_ID;
 
 	// point clouds
@@ -141,6 +135,12 @@ int main(int argc,char** argv)
 		return 0;
 	}
 
+	// initializing handles
+	ros::NodeHandle nh;
+	ros::NodeHandle ph("~"); // private handle for parameter reading
+	ros::Publisher point_cloud_pub = nh.advertise<sensor_msgs::PointCloud2>(
+			POINT_CLOUD_TOPIC,1);
+
 
 	// reading pcd file
 	if(pcl::io::loadPCDFile(std::string(file_path.c_str()),*cloud_ptr) == -1)
@@ -158,7 +158,7 @@ int main(int argc,char** argv)
 	ros::Duration loop_time(rate);
 	tf::Transform cloud_transform = tf::Transform::getIdentity();
 	srand(time(NULL));
-	float noise;
+	double noise;
 
 	ROS_INFO_STREAM("Publishing cloud ");
 	while(ros::ok())
@@ -168,7 +168,7 @@ int main(int argc,char** argv)
 		pcl::copyPointCloud(*cloud_ptr,*noise_cloud_ptr);
 		for(int i = 0; i < noise_cloud_ptr->points.size();i++)
 		{
-			noise = float(rand())/float(RAND_MAX); // <0,1>
+			noise = double(rand())/double(RAND_MAX); // <0,1>
 			noise = -noise_range*0.5f + noise*noise_range;
 			pcl::PointXYZRGB &p = noise_cloud_ptr->points[i];
 			noise_cloud_ptr->points[i].x = p.x + noise;
