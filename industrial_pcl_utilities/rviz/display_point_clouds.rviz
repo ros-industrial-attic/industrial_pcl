@@ -75,7 +75,7 @@ Visualization Manager:
       Size (Pixels): 1
       Size (m): 0.01
       Style: Points
-      Topic: /point_clouds
+      Topic: /point_cloud
       Use Fixed Frame: true
       Use rainbow: true
       Value: true

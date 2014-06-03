@@ -75,7 +75,7 @@ Visualization Manager:
       Size (Pixels): 1
       Size (m): 0.01
       Style: Points
-      Topic: /sensor_point_cloud
+      Topic: /point_cloud
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -103,17 +103,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.32784
+      Distance: 1.27507
       Focal Point:
-        X: 1.16947
-        Y: -0.08011
-        Z: -0.115885
+        X: 1.20605
+        Y: -0.0479832
+        Z: -0.0419395
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.615398
+      Pitch: 0.355398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.5204
+      Yaw: 2.8904
     Saved: ~
 Window Geometry:
   Displays:

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-	<remap from="generated_cloud" to="point_clouds"/>
+	<remap from="generated_cloud" to="point_cloud"/>
 	<node pkg="industrial_pcl_utilities" type="pcl_msg_generator_node" name="point_cloud_generator_node" output="screen">
 		<rosparam command="load" file="$(find industrial_pcl_utilities)/config/point_cloud_descriptions.yaml"/>
 	</node>
