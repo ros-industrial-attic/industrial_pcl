@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /Grid1
         - /PointCloud21
+        - /Axes1
       Splitter Ratio: 0.5
     Tree Height: 540
   - Class: rviz/Selection
@@ -79,6 +80,13 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Class: rviz/Axes
+      Enabled: true
+      Length: 0.2
+      Name: Axes
+      Radius: 0.02
+      Reference Frame: <Fixed Frame>
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -103,17 +111,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.25709
+      Distance: 1.36768
       Focal Point:
         X: 0.509856
         Y: -0.154471
         Z: -0.388912
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.530398
+      Pitch: 0.690398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.1604
+      Yaw: 0.9704
     Saved: ~
 Window Geometry:
   Displays:
