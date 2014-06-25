@@ -9,16 +9,29 @@ point_cloud_descriptions:
     l: 0.04
     w: 0.14
     h: 0.02
+    shape: 1 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
     resolution: 0.004
   - x: 0.90
     y: 0.24
-    z: 0.03
+    z: 0.09
     rx: 0.0
     ry: 0.0
     rz: 0.0
-    l: 0.10
+    l: 0.05 # radius
     w: 0.08
-    h: 0.04
+    h: 0.04 # length
+    shape: 2 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
+    resolution: 0.005
+  - x: 0.90
+    y: 0.24
+    z: 0.04
+    rx: 0.0
+    ry: 0.0
+    rz: 0.0
+    l: 0.10 # radius
+    w: 0.08
+    h: 0.04 # length
+    shape: 1 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
     resolution: 0.002
   - x: 0.80
     y: 0.40
@@ -29,6 +42,7 @@ point_cloud_descriptions:
     l: 0.12
     w: 0.18
     h: 0.0
+    shape: 1 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
     resolution: 0.005
   - x: 0.86
     y: 0.40
@@ -39,6 +53,7 @@ point_cloud_descriptions:
     l: 0.04
     w: 0.18
     h: 0.0
+    shape: 1 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
     resolution: 0.01
   - x: 0.80
     y: 0.20
@@ -49,6 +64,7 @@ point_cloud_descriptions:
     l: 0.10
     w: 0.14
     h: 0.0
+    shape: 1 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
     resolution: 0.002
   - x: 0.68
     y: 0.32
@@ -59,6 +75,7 @@ point_cloud_descriptions:
     l: 0.04
     w: 0.12
     h: 0.0
+    shape: 1 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
     resolution: 0.002
   - x: 0.72
     y: 0.32
@@ -69,6 +86,18 @@ point_cloud_descriptions:
     l: 0.04
     w: 0.12
     h: 0.02
+    shape: 1 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
     resolution: 0.002
+  - x: 0.8
+    y: 0.32
+    z: 0.06
+    rx: -0.78
+    ry: 0.0
+    rz: 0.0
+    l: 0.02
+    w: 0.0
+    h: 0.12
+    shape: 2 # BOX=1, CYLINDER=2, SPHERE=3, CONE=4
+    resolution: 0.005
 
 
