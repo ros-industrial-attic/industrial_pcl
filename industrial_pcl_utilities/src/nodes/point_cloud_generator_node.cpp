@@ -9,6 +9,7 @@
 #include <pcl_ros/transforms.h>
 #include <pcl/filters/extract_indices.h>
 #include <pcl/common/common.h>
+#include <pcl/segmentation/extract_polygonal_prism_data.h>
 #include <boost/make_shared.hpp>
 #include <tf_conversions/tf_eigen.h>
 #include <tf/transform_listener.h>
@@ -27,9 +28,19 @@ const std::string POINT_CLOUD_TOPIC = "generated_cloud";
 class GeneratePointCloud
 {
 	typedef pcl::PointCloud<pcl::PointXYZ> Cloud;
+
+	enum ShapeType
+	{
+		BOX = 1,
+		CYLINDER = 2,
+		SPHERE = 3,
+		CONE = 4
+	};
+
 	struct Description
 	{
 		tf::Vector3 size;
+		int shape_type;
 		tf::Transform transform;
 		double resolution;
 	};
@@ -52,6 +63,7 @@ class GeneratePointCloud
 
 
 			// parameter numeric_fiels
+			int shape;
 			std::map<std::string,double> numeric_fields;
 			numeric_fields.insert(std::make_pair("x",0));
 			numeric_fields.insert(std::make_pair("y",0));
@@ -90,6 +102,16 @@ class GeneratePointCloud
 							}
 						}
 
+						// shape
+						if(entry.hasMember("shape"))
+						{
+							shape = static_cast<int>(entry["shape"]);
+						}
+						else
+						{
+							return false;
+						}
+
 
 						// populating structure
 						Description d;
@@ -98,6 +120,7 @@ class GeneratePointCloud
 								tf::Quaternion(numeric_fields["ry"],numeric_fields["rx"],numeric_fields["rz"]),
 								tf::Vector3(numeric_fields["x"],numeric_fields["y"],numeric_fields["z"]));
 						d.resolution = numeric_fields["resolution"];
+						d.shape_type = shape;
 
 						cloud_descriptions_.push_back(d);
 					}
@@ -140,18 +163,34 @@ class GeneratePointCloud
 			full_cloud_.clear();
 			for(unsigned int i = 0; i < cloud_descriptions_.size() ; i++)
 			{
-				Cloud box;
+				Cloud points;
 				Description &desc = cloud_descriptions_[i];
-				create_box(desc,box);
+
+				switch(desc.shape_type)
+				{
+				case ShapeType::BOX:
+
+					create_box(desc,points);
+					break;
+
+				case ShapeType::CYLINDER:
+					create_cylinder(desc,points);
+					break;
+
+				default:
+					ROS_WARN_STREAM("shape type "<<desc.shape_type<<" not implemented.  Defaulting to box");
+					create_box(desc,points);
+					break;
+				}
 
 
-				// transforming box
+				// transforming points
 				Eigen::Affine3d eigen3d;
 				tf::transformTFToEigen(desc.transform,eigen3d);
-				pcl::transformPointCloud(box,box,Eigen::Affine3f(eigen3d));
+				pcl::transformPointCloud(points,points,Eigen::Affine3f(eigen3d));
 
-				// concatenating box
-				full_cloud_ +=box;
+				// concatenating points
+				full_cloud_ +=points;
 			}
 
 			full_cloud_.header.frame_id = frame_id_;
@@ -249,6 +288,104 @@ class GeneratePointCloud
 
 		}
 
+
+		void create_cylinder(const Description& desc,Cloud& points)
+		{
+			Cloud top,bottom,middle,temp,ring;
+			double radius = desc.size.x(); // along x axis
+			double lenght = desc.size.z(); // along z axis
+
+			// transforms
+			tf::Transform t;
+			Eigen::Affine3d eigen3d;
+
+			// ================================ create top and bottom patches ===============================
+			create_circle(radius,desc.resolution,temp);
+
+			// transform cloud to top
+			t = tf::Transform(tf::Quaternion::getIdentity(),tf::Vector3(0,0,0.5f*lenght));
+			tf::transformTFToEigen(t,eigen3d);
+			pcl::transformPointCloud(temp,top,Eigen::Affine3f(eigen3d));
+
+			// transform cloud to bottom
+			t = tf::Transform(tf::Quaternion::getIdentity(),tf::Vector3(0,0,0.5f*-lenght));
+			tf::transformTFToEigen(t,eigen3d);
+			pcl::transformPointCloud(temp,bottom,Eigen::Affine3f(eigen3d));
+
+			// concatenate
+			points += top;
+			points += bottom;
+
+			// ================================ create middle body ===============================
+
+			double dtheta = desc.resolution/radius;
+			int num_points_per_ring = static_cast<int>(2*M_PI/dtheta);
+			ring.resize(num_points_per_ring);
+			pcl::PointXYZ p;
+			for(int i = 0; i < num_points_per_ring;i++)
+			{
+				p.x = radius*std::cos(dtheta*i);
+				p.y = radius*std::sin(dtheta*i);
+				p.z = 0;
+				ring[i] = p;
+			}
+
+			// creting all rings
+			tf::Vector3 start(0,0,-lenght*0.5f);
+			int num_rings = static_cast<int>(lenght/desc.resolution);
+			for(int i = 1; i < num_rings;i++)
+			{
+				temp.clear();
+				t = tf::Transform(tf::Quaternion::getIdentity(),start + tf::Vector3(0,0,i*desc.resolution));
+				tf::transformTFToEigen(t,eigen3d);
+				pcl::transformPointCloud(ring,temp,Eigen::Affine3f(eigen3d));
+				middle+= temp;
+			}
+
+			points +=middle;
+
+		}
+
+		void create_circle(double radius,double res, Cloud& circle)
+		{
+			// creating rectagular patch
+			Cloud rect;
+			tf::Vector3 start = tf::Vector3(-radius,-radius,0);
+			tf::Vector3 end = tf::Vector3(radius,radius,0);
+			create_rectangular_patch(start,end,res,rect);
+
+			// creating circular polygon
+			int num_points = 20;
+			double dtheta = 2*M_PI/num_points;
+			Cloud circle_boundary;
+			circle_boundary.resize(num_points+1);
+			for(int i = 0; i < num_points;i++)
+			{
+				pcl::PointXYZ p;
+				p.x = radius*std::cos(dtheta*i);
+				p.y = radius*std::sin(dtheta*i);
+				p.z = 0;
+				circle_boundary.points[i] = p;
+			}
+			circle_boundary.points[num_points] = circle_boundary.points[0]; // closing boundary
+
+			// removing points outside boundary
+			pcl::ExtractIndices<pcl::PointXYZ> extract;
+			pcl::PointIndices::Ptr inliers(new pcl::PointIndices());
+			pcl::ExtractPolygonalPrismData<pcl::PointXYZ> prism;
+			prism.setInputCloud(rect.makeShared());
+			prism.setInputPlanarHull(circle_boundary.makeShared());
+			prism.setHeightLimits(-1,1);
+			prism.setViewPoint(0,0,1);
+			prism.segment(*inliers);
+
+			extract.setInputCloud(rect.makeShared());
+			extract.setIndices(inliers);
+			extract.setNegative(false);
+			extract.filter(circle);
+
+
+		}
 
 
 	protected:
