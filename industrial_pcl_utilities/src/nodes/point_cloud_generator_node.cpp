@@ -28,6 +28,7 @@ const std::string POINT_CLOUD_TOPIC = "generated_cloud";
 class GeneratePointCloud
 {
 	typedef pcl::PointCloud<pcl::PointXYZ> Cloud;
+	typedef pcl::PointCloud<pcl::PointXYZRGBA> CloudRGBA;
 
 	enum ShapeType
 	{
@@ -138,10 +139,10 @@ class GeneratePointCloud
 
 			if(init())
 			{
-				genenerate_cloud();
+				generate_cloud();
 
 				sensor_msgs::PointCloud2 msg;
-				pcl::toROSMsg(full_cloud_,msg);
+				pcl::toROSMsg(full_color_cloud_,msg);
 
 				ros::Duration loop_duration(0.4f);
 				while(ros::ok())
@@ -158,7 +159,7 @@ class GeneratePointCloud
 	protected:
 
 
-		void genenerate_cloud()
+		void generate_cloud()
 		{
 			full_cloud_.clear();
 			for(unsigned int i = 0; i < cloud_descriptions_.size() ; i++)
@@ -191,9 +192,13 @@ class GeneratePointCloud
 
 				// concatenating points
 				full_cloud_ +=points;
+
+				// copying to color cloud
+				pcl::copyPointCloud(full_cloud_,full_color_cloud_);
 			}
 
 			full_cloud_.header.frame_id = frame_id_;
+			full_color_cloud_.header.frame_id = frame_id_;
 		}
 
 		void create_rectangular_patch(tf::Vector3 start,tf::Vector3 end,double res,Cloud& patch)
@@ -393,6 +398,7 @@ class GeneratePointCloud
 		std::vector<Description> cloud_descriptions_;
 		std::string frame_id_;
 		Cloud full_cloud_;
+		CloudRGBA full_color_cloud_;
 		float resolution_;
 
 
