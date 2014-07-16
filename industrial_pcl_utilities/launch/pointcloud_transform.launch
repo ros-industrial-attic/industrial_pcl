@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<launch>
+	<node pkg="tf" type="static_transform_publisher" name="kinect_child_link_publisher" args="0 -0.03 0 -1.57 0 -1.57 /kinect_parent_link /kinect_child_link 100"/>
+	<remap from="cloud_in" to="/kinect/depth_registered/points"/>
+	<node name="pointcloud_transform_node" pkg="industrial_pcl_utilities" type="pointcloud_transform.py" output="screen">
+		<param name="parent_frame" value="ur5_stand"/>
+		<param name="child_frame" value="kinect_parent_link"/>
+		<param name="cloud_frame" value="kinect_child_link"/>
+		<rosparam param="parent_to_child_pose">{x: 0.0, y: -0.81, z: 0.6, rx: -0.4, ry: -0.3, rz: 2.25}</rosparam>
+	</node>
+</launch>
