@@ -307,6 +307,11 @@ public:
        * Now go fill in the calc_VectorAngle function
        */
       calculatedAngle = calc_VectorAngle(Pump_Intersection_Large, imgSide, zero_Side);
+      /*
+       * Most of the drawing has been done for you, but the image needs to be published as well
+       *
+       * Now go fill in the publish_Image function
+       */
       drawImageDetails(input_Img, Pump_Intersection_Large, Pump_Intersection_Small, pump_Small_Hole_Points, calculatedAngle, extracted_Pump_MidPoints, pump_LongAxis_Points, zero_Side, true);
 
       return true;

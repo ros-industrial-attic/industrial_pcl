@@ -312,9 +312,14 @@ public:
        * Knowing the center point along central long axis of the housing
        * We can calculate the angle of the pump housing relative to horizontal
        *
-       * Now go fill in the calc_VectorAngle functio
+       * Now go fill in the calc_VectorAngle function
        */
       calculatedAngle = calc_VectorAngle(Pump_Intersection_Large, imgSide, zero_Side);
+      /*
+       * Most of the drawing has been done for you, but the image needs to be published as well
+       *
+       * Now go fill in the publish_Image function
+       */
       drawImageDetails(input_Img, Pump_Intersection_Large, Pump_Intersection_Small, pump_Small_Hole_Points, calculatedAngle, extracted_Pump_MidPoints, pump_LongAxis_Points, zero_Side, true);
 
       return true;
@@ -1007,9 +1012,8 @@ public:
     //ROS_ERROR("Here5");
     putText(imageDraw, angle_Str, Point(10, imageDraw.rows*.98), FONT_HERSHEY_SCRIPT_SIMPLEX, 1.0, Scalar(0,0,255), 2);
 
-    if (showImg){
-      //imshow(WINDOW1,imageDraw);
-      //waitKey(5000);
+    if (showImg)
+    {
       publishImage(imageDraw);
     }
   }
