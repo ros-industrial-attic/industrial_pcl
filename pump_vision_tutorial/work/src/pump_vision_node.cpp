@@ -907,7 +907,8 @@ public:
      * Create a vector (cv::Point) for the horizontal direction (give center and right points)
      * Create a vector (cv::Point) for the pump angle (give center and pump_zero)
      */
-
+    Point vect_Horiz;
+    Point vect_Pump;
 
     double magH = sqrt((vect_Horiz.x * vect_Horiz.x ) + (vect_Horiz.y * vect_Horiz.y));
     double magP = sqrt((vect_Pump.x * vect_Pump.x ) + (vect_Pump.y * vect_Pump.y));
@@ -918,7 +919,7 @@ public:
      * Remember a dot b = mag a times mag b times cos theta (http://tutorial.math.lamar.edu/Classes/CalcII/DotProduct.aspx)
      * Please give angle in degrees not radians
      */
-
+    double angle;
 
     if (angle < 0){
       angle = -1;
