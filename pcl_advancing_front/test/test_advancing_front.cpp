@@ -44,7 +44,7 @@
 // This test shows the results of meshing on a square grid that has a sinusoidal
 // variability in the z axis.  Red arrows show the surface normal for each triangle
 // in the mesh, and cyan boxes show the points used to seed the mesh creation algorithm
-TEST (PCL, AdvancingFront)
+TEST(PCL, AdvancingFront)
 {
   pcl::PointCloud<pcl::PointXYZ> cloud;
   int gridSize = 50;
@@ -53,32 +53,31 @@ TEST (PCL, AdvancingFront)
   {
     for (unsigned int y = 0; y < gridSize; y++)
     {
-      double d = 0.001 * ((double)rand () / (double)RAND_MAX);
-      pcl::PointXYZ pt (x / 10.0, y / 10.0, 0.5 * cos (double(x) / 10.0) - 0.5 * sin (double(y) / 10.0) + d);
-      cloud.push_back (pt);
+      double d = 0.001 * ((double)rand() / (double)RAND_MAX);
+      pcl::PointXYZ pt(x / 10.0, y / 10.0, 0.5 * cos(double(x) / 10.0) - 0.5 * sin(double(y) / 10.0) + d);
+      cloud.push_back(pt);
     }
   }
   cloud.is_dense = false;
 
   pcl::AdvancingFront<pcl::PointXYZ> mesher;
-  pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud (new pcl::PointCloud<pcl::PointXYZ> (cloud));
+  pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud(new pcl::PointCloud<pcl::PointXYZ>(cloud));
   pcl::PolygonMesh output;
 
-  mesher.setRho (0.5);
-  mesher.setReduction (0.8);
-  mesher.setSearchRadius (1);
-  mesher.setPolynomialOrder (2);
-  mesher.setBoundaryAngleThreshold (M_PI_2);
-  mesher.setInputCloud (in_cloud);
-  mesher.reconstruct (output);
+  mesher.setRho(0.5);
+  mesher.setReduction(0.8);
+  mesher.setSearchRadius(1);
+  mesher.setPolynomialOrder(2);
+  mesher.setBoundaryAngleThreshold(M_PI_2);
+  mesher.setInputCloud(in_cloud);
+  mesher.reconstruct(output);
 
-  EXPECT_TRUE (output.polygons.size() == 93);
+  EXPECT_TRUE(output.polygons.size() == 93);
 }
 
 // Run all the tests that were declared with TEST()
-int
-main (int argc, char **argv)
+int main(int argc, char** argv)
 {
-  testing::InitGoogleTest (&argc, argv);
-  return RUN_ALL_TESTS ();
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

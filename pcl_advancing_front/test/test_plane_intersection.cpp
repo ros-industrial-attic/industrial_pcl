@@ -43,10 +43,10 @@
 using namespace pcl;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-TEST (PCL, lineWithPlaneIntersection)
+TEST(PCL, lineWithPlaneIntersection)
 {
-  using pcl::LineWithPlaneIntersectionResults;
   using pcl::lineWithPlaneIntersection;
+  using pcl::LineWithPlaneIntersectionResults;
 
   Eigen::Vector3f l[2], u, v, origin;
   l[0] << 0.5, 0.5, -0.5;
@@ -56,19 +56,19 @@ TEST (PCL, lineWithPlaneIntersection)
   u << 1.0, 0.0, 0.0;
   v << 0.0, 1.0, 0.0;
 
-  LineWithPlaneIntersectionResults results = lineWithPlaneIntersection (l[0], l[1], origin, u, v);
+  LineWithPlaneIntersectionResults results = lineWithPlaneIntersection(l[0], l[1], origin, u, v);
 
-  EXPECT_FLOAT_EQ (results.mu, 0.5);
-  EXPECT_FLOAT_EQ (results.mv, 0.5);
-  EXPECT_FLOAT_EQ (results.mw, 0.5);
-  EXPECT_TRUE (results.p.isApprox (Eigen::Vector3f (0.5, 0.5, 0.0), 1e-10));
-  EXPECT_FALSE (results.parallel);
+  EXPECT_FLOAT_EQ(results.mu, 0.5);
+  EXPECT_FLOAT_EQ(results.mv, 0.5);
+  EXPECT_FLOAT_EQ(results.mw, 0.5);
+  EXPECT_TRUE(results.p.isApprox(Eigen::Vector3f(0.5, 0.5, 0.0), 1e-10));
+  EXPECT_FALSE(results.parallel);
 }
 
-TEST (PCL, lineWithPlaneIntersectionParallel)
+TEST(PCL, lineWithPlaneIntersectionParallel)
 {
-  using pcl::LineWithPlaneIntersectionResults;
   using pcl::lineWithPlaneIntersection;
+  using pcl::LineWithPlaneIntersectionResults;
 
   Eigen::Vector3f l[2], u, v, origin;
   l[0] << 0.0, 0.0, 0.5;
@@ -78,18 +78,15 @@ TEST (PCL, lineWithPlaneIntersectionParallel)
   u << 1.0, 0.0, 0.0;
   v << 0.0, 1.0, 0.0;
 
-  LineWithPlaneIntersectionResults results = lineWithPlaneIntersection (l[0], l[1], origin, u, v);
+  LineWithPlaneIntersectionResults results = lineWithPlaneIntersection(l[0], l[1], origin, u, v);
 
-  EXPECT_TRUE (results.parallel);
+  EXPECT_TRUE(results.parallel);
 }
 
 //* ---[ */
-int
-main (int argc, char** argv)
+int main(int argc, char** argv)
 {
-  testing::InitGoogleTest (&argc, argv);
-  return (RUN_ALL_TESTS ());
+  testing::InitGoogleTest(&argc, argv);
+  return (RUN_ALL_TESTS());
 }
 /* ]--- */
-
-

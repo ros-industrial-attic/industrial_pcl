@@ -42,8 +42,11 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-pcl::LineWithPlaneIntersectionResults
-pcl::lineWithPlaneIntersection (const Eigen::Vector3f &p1, const Eigen::Vector3f &p2, const Eigen::Vector3f &origin, const Eigen::Vector3f &u, const Eigen::Vector3f &v)
+pcl::LineWithPlaneIntersectionResults pcl::lineWithPlaneIntersection(const Eigen::Vector3f& p1,
+                                                                     const Eigen::Vector3f& p2,
+                                                                     const Eigen::Vector3f& origin,
+                                                                     const Eigen::Vector3f& u,
+                                                                     const Eigen::Vector3f& v)
 {
   LineWithPlaneIntersectionResults results;
   results.points[0] = p1;
@@ -54,9 +57,9 @@ pcl::lineWithPlaneIntersection (const Eigen::Vector3f &p1, const Eigen::Vector3f
   results.origin = origin;
   results.u = u;
   results.v = v;
-  Eigen::Vector3f normal = u.cross (v).normalized ();
+  Eigen::Vector3f normal = u.cross(v).normalized();
 
-  if (std::abs (normal.dot (results.w.normalized ())) < 1.0e-8)
+  if (std::abs(normal.dot(results.w.normalized())) < 1.0e-8)
   {
     results.parallel = true;
   }
@@ -66,7 +69,7 @@ pcl::lineWithPlaneIntersection (const Eigen::Vector3f &p1, const Eigen::Vector3f
     m << u, v, -results.w;
 
     Eigen::Vector3f t = p1 - origin;
-    Eigen::Vector3f muvw = m.lu ().solve (t);
+    Eigen::Vector3f muvw = m.lu().solve(t);
     results.mu = muvw[0];
     results.mv = muvw[1];
     results.mw = muvw[2];

@@ -46,118 +46,111 @@
 
 namespace pcl
 {
-  struct EIGEN_ALIGN16 _AdvancingFrontVertexPointType
-  {
-    PCL_ADD_POINT4D;  // This adds the members x,y,z which can also be accessed using the point (which is float[4])
-    PCL_ADD_NORMAL4D; // This adds the member normal[3] which can also be accessed using the point (which is float[4])
+struct EIGEN_ALIGN16 _AdvancingFrontVertexPointType
+{
+  PCL_ADD_POINT4D;   // This adds the members x,y,z which can also be accessed using the point (which is float[4])
+  PCL_ADD_NORMAL4D;  // This adds the member normal[3] which can also be accessed using the point (which is float[4])
 
-    union {
-      struct
-      {
-        float curvature;
-        float max_step;
-        float max_step_search_radius;
-      };
-      float data_c[4];
+  union
+  {
+    struct
+    {
+      float curvature;
+      float max_step;
+      float max_step_search_radius;
     };
-    EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+    float data_c[4];
   };
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+};
 
-  struct AdvancingFrontVertexPointType : public _AdvancingFrontVertexPointType
+struct AdvancingFrontVertexPointType : public _AdvancingFrontVertexPointType
+{
+  inline AdvancingFrontVertexPointType()
   {
-    inline AdvancingFrontVertexPointType ()
-    {
-      x = y = z = 0.0f;
-      data[3] = 1.0f;
-      normal_x = normal_y = normal_z = data_n[3] = 0.0f;
-      curvature = 0.0f;
-      max_step = 0.0f;
-      max_step_search_radius = 0.0f;
-    }
+    x = y = z = 0.0f;
+    data[3] = 1.0f;
+    normal_x = normal_y = normal_z = data_n[3] = 0.0f;
+    curvature = 0.0f;
+    max_step = 0.0f;
+    max_step_search_radius = 0.0f;
+  }
 
-    friend std::ostream &
-    operator<< (std::ostream &os, const AdvancingFrontVertexPointType &p)
-    {
-      os << p.x << "\t" << p.y << "\t" << p.z << "\t"
-         << p.normal_x << "\t" << p.normal_y << "\t" << p.normal_z << "\t"
-         << p.curvature << "\t" << p.max_step << "\t" << p.max_step_search_radius;
-
-      return (os);
-    }
-  };
-
-  struct EIGEN_ALIGN16 _AdvancingFrontGuidanceFieldPointType
+  friend std::ostream& operator<<(std::ostream& os, const AdvancingFrontVertexPointType& p)
   {
-    PCL_ADD_POINT4D;  // This adds the members x,y,z which can also be accessed using the point (which is float[4])
-    PCL_ADD_NORMAL4D; // This adds the member normal[3] which can also be accessed using the point (which is float[4])
+    os << p.x << "\t" << p.y << "\t" << p.z << "\t" << p.normal_x << "\t" << p.normal_y << "\t" << p.normal_z << "\t"
+       << p.curvature << "\t" << p.max_step << "\t" << p.max_step_search_radius;
 
-    union {
-      struct
-      {
-        float curvature;
-        float ideal_edge_length;
-      };
-      float data_c[4];
+    return (os);
+  }
+};
+
+struct EIGEN_ALIGN16 _AdvancingFrontGuidanceFieldPointType
+{
+  PCL_ADD_POINT4D;   // This adds the members x,y,z which can also be accessed using the point (which is float[4])
+  PCL_ADD_NORMAL4D;  // This adds the member normal[3] which can also be accessed using the point (which is float[4])
+
+  union
+  {
+    struct
+    {
+      float curvature;
+      float ideal_edge_length;
     };
-    EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+    float data_c[4];
   };
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+};
 
-  struct AdvancingFrontGuidanceFieldPointType : public _AdvancingFrontGuidanceFieldPointType
+struct AdvancingFrontGuidanceFieldPointType : public _AdvancingFrontGuidanceFieldPointType
+{
+  inline AdvancingFrontGuidanceFieldPointType(const AdvancingFrontVertexPointType& p, const double rho)
   {
-    inline AdvancingFrontGuidanceFieldPointType(const AdvancingFrontVertexPointType &p, const double rho)
-    {
-      x = p.x;
-      y = p.y;
-      z = p.z;
-      data[3] = 1.0f;
-      normal_x = p.normal_x;
-      normal_y = p.normal_y;
-      normal_z = p.normal_z;
-      data_n[3] = 0.0f;
-      curvature = p.curvature;
-      ideal_edge_length = 2.0 * std::sin (rho / 2.0) / curvature;
-    }
+    x = p.x;
+    y = p.y;
+    z = p.z;
+    data[3] = 1.0f;
+    normal_x = p.normal_x;
+    normal_y = p.normal_y;
+    normal_z = p.normal_z;
+    data_n[3] = 0.0f;
+    curvature = p.curvature;
+    ideal_edge_length = 2.0 * std::sin(rho / 2.0) / curvature;
+  }
 
-    inline AdvancingFrontGuidanceFieldPointType ()
-    {
-      x = y = z = 0.0f;
-      data[3] = 1.0f;
-      normal_x = normal_y = normal_z = data_n[3] = 0.0f;
-      curvature = 0.0f;
-      ideal_edge_length = 0.0f;
-    }
+  inline AdvancingFrontGuidanceFieldPointType()
+  {
+    x = y = z = 0.0f;
+    data[3] = 1.0f;
+    normal_x = normal_y = normal_z = data_n[3] = 0.0f;
+    curvature = 0.0f;
+    ideal_edge_length = 0.0f;
+  }
 
-    friend std::ostream &
-    operator<< (std::ostream &os, const AdvancingFrontGuidanceFieldPointType &p)
-    {
-      os << p.x << "\t" << p.y << "\t" << p.z << "\t"
-         << p.normal_x << "\t" << p.normal_y << "\t" << p.normal_z << "\t"
-         << p.curvature << "\t" << p.ideal_edge_length;
+  friend std::ostream& operator<<(std::ostream& os, const AdvancingFrontGuidanceFieldPointType& p)
+  {
+    os << p.x << "\t" << p.y << "\t" << p.z << "\t" << p.normal_x << "\t" << p.normal_y << "\t" << p.normal_z << "\t"
+       << p.curvature << "\t" << p.ideal_edge_length;
 
-      return (os);
-    }
-  };
-} // namespace pcl
+    return (os);
+  }
+};
+}  // namespace pcl
 
-POINT_CLOUD_REGISTER_POINT_STRUCT (pcl::AdvancingFrontVertexPointType,
-                                   (float, x, x)
-                                   (float, y, y)
-                                   (float, z, z)
-                                   (float, normal_x, normal_x)
-                                   (float, normal_y, normal_y)
-                                   (float, normal_z, normal_z)
-                                   (float, curvature, curvature)
-                                   (float, max_step, max_step)
-                                   (float, max_step_search_radius, max_step_search_radius))
+POINT_CLOUD_REGISTER_POINT_STRUCT(
+    pcl::AdvancingFrontVertexPointType,
+    (float, x, x)(float, y, y)(float, z, z)(float, normal_x, normal_x)(float, normal_y, normal_y)(
+        float,
+        normal_z,
+        normal_z)(float, curvature, curvature)(float, max_step, max_step)(float,
+                                                                          max_step_search_radius,
+                                                                          max_step_search_radius))
 
-POINT_CLOUD_REGISTER_POINT_STRUCT (pcl::AdvancingFrontGuidanceFieldPointType,
-                                   (float, x, x)
-                                   (float, y, y)
-                                   (float, z, z)
-                                   (float, normal_x, normal_x)
-                                   (float, normal_y, normal_y)
-                                   (float, normal_z, normal_z)
-                                   (float, curvature, curvature)
-                                   (float, ideal_edge_length, ideal_edge_length))
+POINT_CLOUD_REGISTER_POINT_STRUCT(
+    pcl::AdvancingFrontGuidanceFieldPointType,
+    (float, x, x)(float, y, y)(float, z, z)(float, normal_x, normal_x)(float, normal_y, normal_y)(
+        float,
+        normal_z,
+        normal_z)(float, curvature, curvature)(float, ideal_edge_length, ideal_edge_length))
 
-#endif // PCL_SURFACE_ADVANCING_FRONT_POINT_TYPE_H_
+#endif  // PCL_SURFACE_ADVANCING_FRONT_POINT_TYPE_H_
