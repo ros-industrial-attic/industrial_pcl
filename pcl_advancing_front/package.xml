@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>pcl_advancing_front</name>
+  <version>0.0.0</version>
+  <description>The pcl_advancing_front package</description>
+
+  <author email="levi.armstrong@swri.org">Levi Armstrong</author>
+  <maintainer email="michael.ripperger@swri.org">Michael Ripperger</maintainer>
+
+  <license>BSD</license>
+
+  <depend>cmake_common_scripts</depend>
+
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+</package>
