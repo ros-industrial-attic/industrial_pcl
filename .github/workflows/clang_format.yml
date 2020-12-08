@@ -1,0 +1,23 @@
+name: Clang-Formatting
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  industrial_ci:
+    name: Clang-Formatting
+    runs-on: ubuntu-latest
+    env:
+      CI_NAME: Clang-Formatting
+      DOCKER_IMAGE: "rosindustrial/noether:noetic"
+      CLANG_FORMAT_CHECK: file
+      CLANG_FORMAT_VERSION: 8
+    steps:
+      - uses: actions/checkout@v2
+      - uses: 'ros-industrial/industrial_ci@master'
+        env: ${{env}}
