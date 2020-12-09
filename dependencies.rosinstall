@@ -1,4 +1,4 @@
 - git:
     local-name: cmake_common_scripts
-    uri: git@github.com:ros-industrial/cmake_common_scripts.git
+    uri: https://github.com/ros-industrial/cmake_common_scripts.git
     version: 162077495937f0079c9bfa3203f1c059293adabd
