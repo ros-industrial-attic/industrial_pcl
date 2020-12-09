@@ -38,6 +38,6 @@ install(DIRECTORY include/${PROJECT_NAME}
 #############
 if(INDUSTRIAL_PCL_BUILD_TESTS)
   enable_testing()
-  add_run_tests_target()
+  add_run_tests_target(INDUSTRIAL_PCL_RUN_TESTS)
   add_subdirectory(test)
 endif()
