@@ -12,6 +12,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>cmake_common_scripts</depend>
   <depend>libpcl-all-dev</depend>
+  <depend>gtest</depend>
 
   <export>
     <build_type>cmake</build_type>
