@@ -1,0 +1,31 @@
+name: Focal-Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  industrial_ci:
+    name: Noetic
+    runs-on: ubuntu-latest
+    env:
+      CI_NAME: Focal-Build
+      OS_NAME: ubuntu
+      OS_CODE_NAME: focal
+      ROS_DISTRO: noetic
+      ROS_REPO: main
+      UPSTREAM_WORKSPACE: 'dependencies.rosinstall'
+      ROSDEP_SKIP_KEYS: 'cmake_common_scripts'
+      DOCKER_IMAGE: 'ros:noetic'
+      TARGET_CMAKE_ARGS: '-DINDUSTRIAL_PCL_BUILD_TESTS=ON'
+      AFTER_SCRIPT: 'cd $target_ws/build/pcl_advancing_front && ctest -V'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: 'ros-industrial/industrial_ci@master'
+        env: ${{env}}
