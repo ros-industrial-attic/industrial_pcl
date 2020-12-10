@@ -21,6 +21,29 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PCL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${PCL_LIBRARIES})
 target_cxx_version(${PROJECT_NAME} PRIVATE VERSION 14)
 
+# Add OpenMP support, if available
+find_package(OpenMP)
+if(OPENMP_FOUND)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+
+  # Create the target if it doesn't exist
+  if(NOT TARGET OpenMP::OpenMP_CXX)
+      find_package(Threads REQUIRED)
+      add_library(OpenMP::OpenMP_CXX IMPORTED INTERFACE)
+      set_property(TARGET OpenMP::OpenMP_CXX
+                   PROPERTY INTERFACE_COMPILE_OPTIONS ${OpenMP_CXX_FLAGS})
+      # Only works if the same flag is passed to the linker; use CMake 3.9+ otherwise (Intel, AppleClang)
+      set_property(TARGET OpenMP::OpenMP_CXX
+                   PROPERTY INTERFACE_LINK_LIBRARIES ${OpenMP_CXX_FLAGS} Threads::Threads)
+  endif()
+
+  # Link the library against the OpenMP target
+  target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX)
+else(OPENMP_FOUND)
+  message (STATUS "OpenMP not found")
+endif()
+
 # Advancing Front Tool
 add_executable(${PROJECT_NAME}_tool
   src/advancing_front_reconstruction.cpp
