@@ -108,11 +108,11 @@ public:
 
   struct SamplePointResults
   {
-    pcl::PointXYZ orig;                       /**< \brief The point to be projected on to the MLS surface */
+    pcl::PointXYZ orig;                  /**< \brief The point to be projected on to the MLS surface */
     AdvancingFrontVertexPointType point; /**< \brief The point projected on to the MLS surface */
-    int closest;        /**< \brief The closest point index on the MLS surface to the project point */
-    pcl::MLSResult mls; /**< \brief The MLS Results for the closest point */
-    double dist;        /**< \brief The distance squared between point and closest */
+    int closest;                         /**< \brief The closest point index on the MLS surface to the project point */
+    pcl::MLSResult mls;                  /**< \brief The MLS Results for the closest point */
+    double dist;                         /**< \brief The distance squared between point and closest */
   };
 
   struct TriangleData
@@ -241,10 +241,10 @@ public:
   {
     FenceViolationResults() : index(-1), dist(0.0), found(false) {}
 
-    HalfEdgeIndex he;                          /**< \brief The half edge index that was violated. */
-    int index;                                 /**< \brief The index in the array CloseProximityResults.fences. */
+    HalfEdgeIndex he;                     /**< \brief The half edge index that was violated. */
+    int index;                            /**< \brief The index in the array CloseProximityResults.fences. */
     LineWithPlaneIntersectionResults lpr; /**< \brief The line to plane intersection results for fence violations.
-                                                */
+                                           */
     double dist; /**< \brief The distance from the intersection point and the advancing front. */
     bool found;  /**< \brief If a mesh half edge was violated. */
   };
@@ -667,7 +667,7 @@ const double AdvancingFront<PointNT>::AFRONT_CLOSE_PROXIMITY_FACTOR = 0.5;
 template <typename PointNT>
 const double AdvancingFront<PointNT>::AFRONT_FENCE_HEIGHT_FACTOR = 2.0;
 
-}  // namespace pcl
+}  // namespace industrial_pcl
 
 #ifdef PCL_NO_PRECOMPILE
 #include <advancing_front_mesher/impl/advancing_front.hpp>

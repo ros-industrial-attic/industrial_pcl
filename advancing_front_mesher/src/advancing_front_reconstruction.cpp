@@ -180,8 +180,7 @@ protected:
                      v4);
     pcl::visualization::PointCloudColorHandlerCustom<AdvancingFrontGuidanceFieldPointType> single_color2(
         this->mls_cloud_, 0, 255, 0);
-    viewer_->addPointCloud<AdvancingFrontGuidanceFieldPointType>(
-        this->mls_cloud_, single_color2, "mls_cloud2", v4);
+    viewer_->addPointCloud<AdvancingFrontGuidanceFieldPointType>(this->mls_cloud_, single_color2, "mls_cloud2", v4);
 
     viewer_->registerKeyboardCallback(&AdvancingFrontDebugTool<PointNT>::keyboardEventOccurred, *this);
     viewer_->spin();

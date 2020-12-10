@@ -79,7 +79,7 @@ LineWithPlaneIntersectionResults lineWithPlaneIntersection(const Eigen::Vector3f
                                                            const Eigen::Vector3f& u,
                                                            const Eigen::Vector3f& v);
 
-} // namespace industrial_pcl
+}  // namespace industrial_pcl
 /*@}*/
 
 #include "impl/intersections.hpp"

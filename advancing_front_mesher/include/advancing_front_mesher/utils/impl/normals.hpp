@@ -68,4 +68,4 @@ bool checkNormalsEqual(const Eigen::Vector3f& n1, const Eigen::Vector3f& n2, con
   }
 }
 
-} // namespace industrial_pcl
+}  // namespace industrial_pcl

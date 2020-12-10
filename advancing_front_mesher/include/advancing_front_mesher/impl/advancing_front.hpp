@@ -201,7 +201,7 @@ void AdvancingFront<PointNT>::performReconstruction(pcl::PolygonMesh& output)
 
 template <typename PointNT>
 void AdvancingFront<PointNT>::performReconstruction(pcl::PointCloud<PointNT>& points,
-                                                         std::vector<pcl::Vertices>& polygons)
+                                                    std::vector<pcl::Vertices>& polygons)
 {
   if (!initialize())
   {
@@ -533,8 +533,8 @@ AdvancingFront<PointNT>::samplePoint(const AdvancingFrontGuidanceFieldPointType&
 
 template <typename PointNT>
 typename AdvancingFront<PointNT>::SamplePointResults AdvancingFront<PointNT>::samplePoint(float x,
-                                                                                                    float y,
-                                                                                                    float z) const
+                                                                                          float y,
+                                                                                          float z) const
 {
   AdvancingFrontGuidanceFieldPointType search_pt;
   search_pt.x = x;
@@ -545,8 +545,7 @@ typename AdvancingFront<PointNT>::SamplePointResults AdvancingFront<PointNT>::sa
 }
 
 template <typename PointNT>
-typename AdvancingFront<PointNT>::CutEarData
-AdvancingFront<PointNT>::getNextHalfEdge(const FrontData& front) const
+typename AdvancingFront<PointNT>::CutEarData AdvancingFront<PointNT>::getNextHalfEdge(const FrontData& front) const
 {
   CutEarData next;
   next.primary = front.he;
@@ -590,8 +589,7 @@ AdvancingFront<PointNT>::getNextHalfEdge(const FrontData& front) const
 }
 
 template <typename PointNT>
-typename AdvancingFront<PointNT>::CutEarData
-AdvancingFront<PointNT>::getPrevHalfEdge(const FrontData& front) const
+typename AdvancingFront<PointNT>::CutEarData AdvancingFront<PointNT>::getPrevHalfEdge(const FrontData& front) const
 {
   CutEarData prev;
   prev.primary = front.he;
@@ -665,7 +663,7 @@ AdvancingFront<PointNT>::predictVertex(const AdvancingFrontData& afront) const
     Eigen::Vector3f p = front.mp + l * front.d;
     result.pv = samplePoint(p(0), p(1), p(2));
     alignNormals(result.pv.point.getNormalVector3fMap(),
-                      mesh_vertex_data_ptr_->at(afront.front.vi[0].get()).getNormalVector3fMap());
+                 mesh_vertex_data_ptr_->at(afront.front.vi[0].get()).getNormalVector3fMap());
     if (static_cast<std::size_t>(result.pv.mls.num_neighbors) < required_neighbors_)  // Maybe we should use the 5 * DOF
                                                                                       // that PCL uses
     {
@@ -833,10 +831,8 @@ AdvancingFront<PointNT>::isCloseProximity(const PredictVertexResults& pvr) const
   // If either the prev or next half edge vertice is with in tolerance default to it
   // over closest point.
   // TODO: Should we be checking if triangle normals are valid?
-  double prev_dist =
-      pointToLineSegmentDistance(pvr.afront.prev.tri.p[0], pvr.afront.prev.tri.p[2], pvr.tri.p[2]).d;
-  double next_dist =
-      pointToLineSegmentDistance(pvr.afront.next.tri.p[1], pvr.afront.next.tri.p[2], pvr.tri.p[2]).d;
+  double prev_dist = pointToLineSegmentDistance(pvr.afront.prev.tri.p[0], pvr.afront.prev.tri.p[2], pvr.tri.p[2]).d;
+  double next_dist = pointToLineSegmentDistance(pvr.afront.next.tri.p[1], pvr.afront.next.tri.p[2], pvr.tri.p[2]).d;
   if (pvr.afront.prev.tri.point_valid && pvr.afront.next.tri.point_valid)
   {
     if (pvr.afront.prev.tri.aspect_ratio >= AFRONT_ASPECT_RATIO_TOLERANCE ||
@@ -965,8 +961,8 @@ AdvancingFront<PointNT>::isCloseProximity(const PredictVertexResults& pvr) const
 
 template <typename PointNT>
 bool AdvancingFront<PointNT>::checkPrevNextHalfEdge(const AdvancingFrontData& afront,
-                                                         TriangleData& tri,
-                                                         VertexIndex& closest) const
+                                                    TriangleData& tri,
+                                                    VertexIndex& closest) const
 {
   if (mesh_.isValid(closest) && closest == afront.prev.vi[2])
     if (afront.next.tri.point_valid && tri.c >= afront.next.tri.c)
@@ -1041,10 +1037,10 @@ bool AdvancingFront<PointNT>::checkPrevNextHalfEdge(const AdvancingFrontData& af
 
 template <typename PointNT>
 bool AdvancingFront<PointNT>::isFenceViolated(const Eigen::Vector3f& sp,
-                                                   const Eigen::Vector3f& ep,
-                                                   const HalfEdgeIndex& fence,
-                                                   const double fence_height,
-                                                   LineWithPlaneIntersectionResults& lpr) const
+                                              const Eigen::Vector3f& ep,
+                                              const HalfEdgeIndex& fence,
+                                              const double fence_height,
+                                              LineWithPlaneIntersectionResults& lpr) const
 {
   // Check for fence intersection
   Eigen::Vector3f he_p1, he_p2;
@@ -1074,10 +1070,10 @@ bool AdvancingFront<PointNT>::isFenceViolated(const Eigen::Vector3f& sp,
 template <typename PointNT>
 typename AdvancingFront<PointNT>::FenceViolationResults
 AdvancingFront<PointNT>::isFencesViolated(const VertexIndex& vi,
-                                               const Eigen::Vector3f& p,
-                                               const std::vector<HalfEdgeIndex>& fences,
-                                               const VertexIndex& closest,
-                                               const PredictVertexResults& pvr) const
+                                          const Eigen::Vector3f& p,
+                                          const std::vector<HalfEdgeIndex>& fences,
+                                          const VertexIndex& closest,
+                                          const PredictVertexResults& pvr) const
 {
   // Now need to check for fence violation
   FenceViolationResults results;
@@ -1366,8 +1362,8 @@ void AdvancingFront<PointNT>::merge(const PredictVertexResults& pvr)
 
 template <typename PointNT>
 Eigen::Vector3f AdvancingFront<PointNT>::getGrowDirection(const Eigen::Vector3f& p,
-                                                               const Eigen::Vector3f& mp,
-                                                               const typename MeshTraits::FaceData& fd) const
+                                                          const Eigen::Vector3f& mp,
+                                                          const typename MeshTraits::FaceData& fd) const
 {
   Eigen::Vector3f v1, v2, v3, norm;
   v1 = mp - p;
@@ -1642,6 +1638,6 @@ void AdvancingFront<PointNT>::printFace(const FaceIndex& idx_face) const
   std::cout << std::endl;
 }
 
-} // namespace industrial_pcl
+}  // namespace industrial_pcl
 
 #define PCL_INSTANTIATE_AdvancingFront(T) template class PCL_EXPORTS industrial_pcl::AdvancingFront<T>;

@@ -80,4 +80,4 @@ LineWithPlaneIntersectionResults lineWithPlaneIntersection(const Eigen::Vector3f
   }
   return results;
 }
-} // namespace industrial_pcl
+}  // namespace industrial_pcl
