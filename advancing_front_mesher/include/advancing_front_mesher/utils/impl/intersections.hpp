@@ -42,11 +42,13 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-pcl::LineWithPlaneIntersectionResults pcl::lineWithPlaneIntersection(const Eigen::Vector3f& p1,
-                                                                     const Eigen::Vector3f& p2,
-                                                                     const Eigen::Vector3f& origin,
-                                                                     const Eigen::Vector3f& u,
-                                                                     const Eigen::Vector3f& v)
+namespace industrial_pcl
+{
+LineWithPlaneIntersectionResults lineWithPlaneIntersection(const Eigen::Vector3f& p1,
+                                                           const Eigen::Vector3f& p2,
+                                                           const Eigen::Vector3f& origin,
+                                                           const Eigen::Vector3f& u,
+                                                           const Eigen::Vector3f& v)
 {
   LineWithPlaneIntersectionResults results;
   results.points[0] = p1;
@@ -78,3 +80,4 @@ pcl::LineWithPlaneIntersectionResults pcl::lineWithPlaneIntersection(const Eigen
   }
   return results;
 }
+} // namespace industrial_pcl

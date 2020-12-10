@@ -46,7 +46,7 @@
  */
 #include <pcl/point_types.h>
 
-namespace pcl
+namespace industrial_pcl
 {
 /** \brief Align pn's normal with av so they point in the same direction */
 bool alignNormals(Eigen::Ref<Eigen::Vector3f> pn, const Eigen::Ref<const Eigen::Vector3f>& av);
@@ -58,6 +58,6 @@ bool alignNormals(Eigen::Ref<Eigen::Vector3f> pn, const Eigen::Ref<const Eigen::
  */
 bool checkNormalsEqual(const Eigen::Vector3f& n1, const Eigen::Vector3f& n2, const double& angle_threshold);
 
-}  // namespace pcl
+}  // namespace industrial_pcl
 
 #include "impl/normals.hpp"

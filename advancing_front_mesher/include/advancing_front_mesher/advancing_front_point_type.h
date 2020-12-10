@@ -37,14 +37,12 @@
  * $Id$
  *
  */
-
-#ifndef PCL_SURFACE_ADVANCING_FRONT_POINT_TYPE_H_
-#define PCL_SURFACE_ADVANCING_FRONT_POINT_TYPE_H_
+#pragma once
 
 #include <pcl/point_types.h>
 #include <ostream>
 
-namespace pcl
+namespace industrial_pcl
 {
 struct EIGEN_ALIGN16 _AdvancingFrontVertexPointType
 {
@@ -135,10 +133,10 @@ struct AdvancingFrontGuidanceFieldPointType : public _AdvancingFrontGuidanceFiel
     return (os);
   }
 };
-}  // namespace pcl
+}  // namespace industrial_pcl
 
 POINT_CLOUD_REGISTER_POINT_STRUCT(
-    pcl::AdvancingFrontVertexPointType,
+    industrial_pcl::AdvancingFrontVertexPointType,
     (float, x, x)(float, y, y)(float, z, z)(float, normal_x, normal_x)(float, normal_y, normal_y)(
         float,
         normal_z,
@@ -147,10 +145,8 @@ POINT_CLOUD_REGISTER_POINT_STRUCT(
                                                                           max_step_search_radius))
 
 POINT_CLOUD_REGISTER_POINT_STRUCT(
-    pcl::AdvancingFrontGuidanceFieldPointType,
+    industrial_pcl::AdvancingFrontGuidanceFieldPointType,
     (float, x, x)(float, y, y)(float, z, z)(float, normal_x, normal_x)(float, normal_y, normal_y)(
         float,
         normal_z,
         normal_z)(float, curvature, curvature)(float, ideal_edge_length, ideal_edge_length))
-
-#endif  // PCL_SURFACE_ADVANCING_FRONT_POINT_TYPE_H_

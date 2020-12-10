@@ -40,14 +40,12 @@
 #include <pcl/common/common.h>
 #include <pcl/pcl_tests.h>
 
+using namespace industrial_pcl;
 using namespace pcl;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 TEST(PCL, lineWithPlaneIntersection)
 {
-  using pcl::lineWithPlaneIntersection;
-  using pcl::LineWithPlaneIntersectionResults;
-
   Eigen::Vector3f l[2], u, v, origin;
   l[0] << 0.5, 0.5, -0.5;
   l[1] << 0.5, 0.5, 0.5;
@@ -61,15 +59,12 @@ TEST(PCL, lineWithPlaneIntersection)
   EXPECT_FLOAT_EQ(results.mu, 0.5);
   EXPECT_FLOAT_EQ(results.mv, 0.5);
   EXPECT_FLOAT_EQ(results.mw, 0.5);
-  EXPECT_TRUE(results.p.isApprox(Eigen::Vector3f(0.5, 0.5, 0.0), 1e-10));
+  EXPECT_TRUE(results.p.isApprox(Eigen::Vector3f(0.5, 0.5, 0.0), 1e-10f));
   EXPECT_FALSE(results.parallel);
 }
 
 TEST(PCL, lineWithPlaneIntersectionParallel)
 {
-  using pcl::lineWithPlaneIntersection;
-  using pcl::LineWithPlaneIntersectionResults;
-
   Eigen::Vector3f l[2], u, v, origin;
   l[0] << 0.0, 0.0, 0.5;
   l[1] << 1.0, 0.0, 0.5;

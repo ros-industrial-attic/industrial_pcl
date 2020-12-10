@@ -50,7 +50,7 @@
 #include <pcl/surface/mls.h>
 #include <pcl/geometry/polygon_mesh.h>
 
-namespace pcl
+namespace industrial_pcl
 {
 /** \brief The advancing front reconstruction algorithm. This implementaton is based on the following paper.
  *
@@ -72,12 +72,12 @@ namespace pcl
  * \group surface
  */
 template <typename PointNT>
-class AdvancingFront : public SurfaceReconstruction<PointNT>
+class AdvancingFront : public pcl::SurfaceReconstruction<PointNT>
 {
 protected:
   struct MeshTraits
   {
-    using VertexData = pcl::AdvancingFrontVertexPointType;
+    using VertexData = AdvancingFrontVertexPointType;
     using HalfEdgeData = int;
     using EdgeData = int;
     using FaceData = pcl::PointNormal;
@@ -109,7 +109,7 @@ public:
   struct SamplePointResults
   {
     pcl::PointXYZ orig;                       /**< \brief The point to be projected on to the MLS surface */
-    pcl::AdvancingFrontVertexPointType point; /**< \brief The point projected on to the MLS surface */
+    AdvancingFrontVertexPointType point; /**< \brief The point projected on to the MLS surface */
     int closest;        /**< \brief The closest point index on the MLS surface to the project point */
     pcl::MLSResult mls; /**< \brief The MLS Results for the closest point */
     double dist;        /**< \brief The distance squared between point and closest */
@@ -243,7 +243,7 @@ public:
 
     HalfEdgeIndex he;                          /**< \brief The half edge index that was violated. */
     int index;                                 /**< \brief The index in the array CloseProximityResults.fences. */
-    pcl::LineWithPlaneIntersectionResults lpr; /**< \brief The line to plane intersection results for fence violations.
+    LineWithPlaneIntersectionResults lpr; /**< \brief The line to plane intersection results for fence violations.
                                                 */
     double dist; /**< \brief The distance from the intersection point and the advancing front. */
     bool found;  /**< \brief If a mesh half edge was violated. */
@@ -466,7 +466,7 @@ protected:
                        const Eigen::Vector3f& ep,
                        const HalfEdgeIndex& fence,
                        const double fence_height,
-                       pcl::LineWithPlaneIntersectionResults& lpr) const;
+                       LineWithPlaneIntersectionResults& lpr) const;
 
   /**
    * \brief Check if a line intersects a list of fences.
@@ -509,7 +509,7 @@ protected:
   void cutEar(const CutEarData& ccer);
 
   SamplePointResults samplePoint(float x, float y, float z) const;
-  SamplePointResults samplePoint(const pcl::AdvancingFrontGuidanceFieldPointType& pt) const;
+  SamplePointResults samplePoint(const AdvancingFrontGuidanceFieldPointType& pt) const;
 
   /** \brief Used to get the next half edge */
   CutEarData getNextHalfEdge(const FrontData& front) const;
@@ -576,7 +576,7 @@ protected:
    * \param[in] p Third point of triangle
    * \return Returns information about the triangle: angles, edge lengths, etc.
    */
-  TriangleData getTriangleData(const FrontData& front, const pcl::AdvancingFrontVertexPointType& p) const;
+  TriangleData getTriangleData(const FrontData& front, const AdvancingFrontVertexPointType& p) const;
 
   /** \brief Update the allowed triangle tolerances. */
   void updateTriangleTolerances()
@@ -595,9 +595,9 @@ protected:
   bool isBoundaryPoint(const int index) const;
 
   // User defined data
-  using SurfaceReconstruction<PointNT>::input_;
-  using SurfaceReconstruction<PointNT>::indices_;
-  using SurfaceReconstruction<PointNT>::tree_;
+  using pcl::SurfaceReconstruction<PointNT>::input_;
+  using pcl::SurfaceReconstruction<PointNT>::indices_;
+  using pcl::SurfaceReconstruction<PointNT>::tree_;
 
   double rho_;       /**< \brief The angle of the osculating circle where a triangle edge should optimally subtend */
   double reduction_; /**< \brief The allowed percent reduction from triangle to triangle. */
@@ -620,13 +620,13 @@ protected:
   double boundary_angle_threshold_; /**< \brief The boundary angle threshold */
 
   // Guidance field data
-  pcl::PointCloud<pcl::AdvancingFrontGuidanceFieldPointType>::Ptr mls_cloud_;
-  pcl::search::KdTree<pcl::AdvancingFrontGuidanceFieldPointType>::Ptr mls_cloud_tree_;
+  pcl::PointCloud<AdvancingFrontGuidanceFieldPointType>::Ptr mls_cloud_;
+  pcl::search::KdTree<AdvancingFrontGuidanceFieldPointType>::Ptr mls_cloud_tree_;
   pcl::PointIndicesPtr mls_corresponding_input_indices_;
 #ifdef _OPENMP
-  pcl::MovingLeastSquaresOMP<PointNT, pcl::AdvancingFrontGuidanceFieldPointType> mls_;
+  pcl::MovingLeastSquaresOMP<PointNT, AdvancingFrontGuidanceFieldPointType> mls_;
 #else
-  pcl::MovingLeastSquares<PointNT, pcl::AdvancingFrontGuidanceFieldPointType> mls_;
+  pcl::MovingLeastSquares<PointNT, AdvancingFrontGuidanceFieldPointType> mls_;
 #endif
   double max_curvature_;
   double min_curvature_;

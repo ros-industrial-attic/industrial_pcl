@@ -47,20 +47,20 @@
 TEST(PCL, AdvancingFront)
 {
   pcl::PointCloud<pcl::PointXYZ> cloud;
-  int gridSize = 50;
+  unsigned int gridSize = 50;
 
   for (unsigned int x = 0; x < gridSize; x++)
   {
     for (unsigned int y = 0; y < gridSize; y++)
     {
-      double d = 0.001 * ((double)rand() / (double)RAND_MAX);
-      pcl::PointXYZ pt(x / 10.0, y / 10.0, 0.5 * cos(double(x) / 10.0) - 0.5 * sin(double(y) / 10.0) + d);
+      float d = 0.001f * (static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
+      pcl::PointXYZ pt(x / 10.0f, y / 10.0f, 0.5f * cos(static_cast<float>(x) / 10.0f) - 0.5f * sin(static_cast<float>(y) / 10.0f) + d);
       cloud.push_back(pt);
     }
   }
   cloud.is_dense = false;
 
-  pcl::AdvancingFront<pcl::PointXYZ> mesher;
+  industrial_pcl::AdvancingFront<pcl::PointXYZ> mesher;
   pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud(new pcl::PointCloud<pcl::PointXYZ>(cloud));
   pcl::PolygonMesh output;
 

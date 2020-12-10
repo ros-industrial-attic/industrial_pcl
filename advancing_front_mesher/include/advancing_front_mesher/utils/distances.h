@@ -46,7 +46,7 @@
  */
 
 /*@{*/
-namespace pcl
+namespace industrial_pcl
 {
 struct PointToLineSegmentDistanceResults
 {
@@ -170,4 +170,4 @@ PCL_EXPORTS inline LineSegmentToLineSegmentDistanceResults lineSegmentToLineSegm
   result.d = (result.p[1] - result.p[0]).norm();
   return result;
 }
-}  // namespace pcl
+}  // namespace industrial_pcl
