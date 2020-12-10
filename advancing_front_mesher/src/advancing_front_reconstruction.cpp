@@ -38,7 +38,7 @@
  *
  */
 
-#include <pcl_advancing_front/advancing_front.h>
+#include <advancing_front_mesher/advancing_front.h>
 
 #include <pcl/PCLPointCloud2.h>
 #include <pcl/io/pcd_io.h>

@@ -36,9 +36,9 @@
  * $Id$
  *
  */
-#include <pcl_advancing_front/utils/normals.h>
-#include <pcl_advancing_front/utils/distances.h>
-#include <pcl_advancing_front/utils/intersections.h>
+#include <advancing_front_mesher/utils/normals.h>
+#include <advancing_front_mesher/utils/distances.h>
+#include <advancing_front_mesher/utils/intersections.h>
 
 #include <gtest/gtest.h>
 #include <pcl/pcl_tests.h>

@@ -40,8 +40,8 @@
 
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/point_types.h>
-#include <pcl_advancing_front/advancing_front.h>
-#include <pcl_advancing_front/impl/advancing_front.hpp>
+#include <advancing_front_mesher/advancing_front.h>
+#include <advancing_front_mesher/impl/advancing_front.hpp>
 
 // Instantiations of specific point types
 PCL_INSTANTIATE(AdvancingFront, (pcl::PointXYZ)(pcl::PointXYZRGB)(pcl::PointXYZRGBA))

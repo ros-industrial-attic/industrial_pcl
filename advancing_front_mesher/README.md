@@ -1,4 +1,4 @@
-# PCL Advancing Front
+# Advancing Front Mesher
 
 This package contains an implementation of the advancing front surface reconstruction algorithm based on the following papers:
 

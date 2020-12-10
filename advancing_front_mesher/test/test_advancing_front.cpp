@@ -39,7 +39,7 @@
 
 #include <gtest/gtest.h>
 #include <pcl/point_cloud.h>
-#include <pcl_advancing_front/advancing_front.h>
+#include <advancing_front_mesher/advancing_front.h>
 
 // This test shows the results of meshing on a square grid that has a sinusoidal
 // variability in the z axis.  Red arrows show the surface normal for each triangle

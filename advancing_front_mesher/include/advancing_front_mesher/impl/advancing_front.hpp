@@ -40,9 +40,9 @@
 
 #pragma once
 
-#include <pcl_advancing_front/advancing_front.h>
-#include <pcl_advancing_front/utils/distances.h>
-#include <pcl_advancing_front/utils/normals.h>
+#include <advancing_front_mesher/advancing_front.h>
+#include <advancing_front_mesher/utils/distances.h>
+#include <advancing_front_mesher/utils/normals.h>
 
 #include <pcl/geometry/mesh_conversion.h>
 #include <pcl/common/distances.h>

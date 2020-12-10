@@ -42,8 +42,8 @@
 
 #define PCL_NO_PRECOMPILE
 
-#include <pcl_advancing_front/advancing_front_point_type.h>
-#include <pcl_advancing_front/utils/intersections.h>
+#include <advancing_front_mesher/advancing_front_point_type.h>
+#include <advancing_front_mesher/utils/intersections.h>
 
 #include <deque>
 #include <pcl/surface/reconstruction.h>
@@ -670,5 +670,5 @@ const double AdvancingFront<PointNT>::AFRONT_FENCE_HEIGHT_FACTOR = 2.0;
 }  // namespace pcl
 
 #ifdef PCL_NO_PRECOMPILE
-#include <pcl_advancing_front/impl/advancing_front.hpp>
+#include <advancing_front_mesher/impl/advancing_front.hpp>
 #endif

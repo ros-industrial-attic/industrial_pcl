@@ -34,7 +34,7 @@
  * $Id: test_plane_intersection.cpp 5686 2012-05-11 20:59:00Z gioia $
  */
 
-#include <pcl_advancing_front/utils/intersections.h>
+#include <advancing_front_mesher/utils/intersections.h>
 
 #include <gtest/gtest.h>
 #include <pcl/common/common.h>

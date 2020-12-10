@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>pcl_advancing_front</name>
+  <name>advancing_front_mesher</name>
   <version>0.0.0</version>
-  <description>The pcl_advancing_front package</description>
+  <description>The Advancing Front meshing package</description>
 
   <author email="levi.armstrong@swri.org">Levi Armstrong</author>
   <maintainer email="michael.ripperger@swri.org">Michael Ripperger</maintainer>
