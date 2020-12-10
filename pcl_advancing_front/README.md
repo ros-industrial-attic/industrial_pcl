@@ -13,3 +13,5 @@ Computer Graphics Forum (Proceedings of Eurographics); 2006
 1. *Triangulating Point-Set Surfaces With Bounded Error*
 C. Scheidegger, S. Fleishman, C. Silva
 Proceedings of the third Eurographics/ACM Symposium on Geometry Processing; 2005
+
+PCL 1.9 is required to build this package
