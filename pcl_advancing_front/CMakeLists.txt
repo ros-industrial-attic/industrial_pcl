@@ -25,8 +25,11 @@ target_link_libraries(${PROJECT_NAME}_tool PUBLIC ${PROJECT_NAME})
 target_cxx_version(${PROJECT_NAME} PRIVATE VERSION 14)
 
 configure_package(
-  ${PROJECT_NAME}
-  ${PROJECT_NAME}_tool
+  NAMESPACE
+    industrial_pcl
+  TARGETS
+    ${PROJECT_NAME}
+    ${PROJECT_NAME}_tool
 )
 
 install(DIRECTORY include/${PROJECT_NAME}
