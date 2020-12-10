@@ -14,7 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CI_NAME: Clang-Formatting
-      DOCKER_IMAGE: "rosindustrial/noether:noetic"
+      OS_NAME: ubuntu
+      OS_CODE_NAME: focal
+      ROS_DISTRO: noetic
+      ROS_REPO: main
+      DOCKER_IMAGE: "ros:noetic"
       CLANG_FORMAT_CHECK: file
       CLANG_FORMAT_VERSION: 8
     steps:
