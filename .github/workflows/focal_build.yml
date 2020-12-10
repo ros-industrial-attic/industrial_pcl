@@ -24,7 +24,7 @@ jobs:
       ROSDEP_SKIP_KEYS: 'cmake_common_scripts'
       DOCKER_IMAGE: 'ros:noetic'
       TARGET_CMAKE_ARGS: '-DINDUSTRIAL_PCL_BUILD_TESTS=ON'
-      AFTER_SCRIPT: 'cd $target_ws/build/pcl_advancing_front && ctest -V'
+      AFTER_SCRIPT: 'cd $target_ws/build/advancing_front_mesher && ctest -V'
     steps:
       - uses: actions/checkout@v2
       - uses: 'ros-industrial/industrial_ci@master'
