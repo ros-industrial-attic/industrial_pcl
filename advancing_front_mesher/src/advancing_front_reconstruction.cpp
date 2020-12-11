@@ -38,7 +38,7 @@
  *
  */
 
-#include <pcl_advancing_front/advancing_front.h>
+#include <advancing_front_mesher/advancing_front.h>
 
 #include <pcl/PCLPointCloud2.h>
 #include <pcl/io/pcd_io.h>
@@ -51,6 +51,7 @@
 #include <pcl/console/parse.h>
 #include <pcl/console/time.h>
 
+using namespace industrial_pcl;
 using namespace pcl;
 using namespace pcl::io;
 using namespace pcl::console;
@@ -150,9 +151,9 @@ protected:
                      0,
                      "view_3b_legend",
                      v3);
-    pcl::visualization::PointCloudColorHandlerGenericField<pcl::AdvancingFrontGuidanceFieldPointType> handler_k(
+    pcl::visualization::PointCloudColorHandlerGenericField<AdvancingFrontGuidanceFieldPointType> handler_k(
         this->mls_cloud_, "curvature");
-    viewer_->addPointCloud<pcl::AdvancingFrontGuidanceFieldPointType>(this->mls_cloud_, handler_k, "mls_cloud", v3);
+    viewer_->addPointCloud<AdvancingFrontGuidanceFieldPointType>(this->mls_cloud_, handler_k, "mls_cloud", v3);
 
     // Show mls information
     int v4 = 4;
@@ -177,10 +178,9 @@ protected:
                      0,
                      "view_4b_legend",
                      v4);
-    pcl::visualization::PointCloudColorHandlerCustom<pcl::AdvancingFrontGuidanceFieldPointType> single_color2(
+    pcl::visualization::PointCloudColorHandlerCustom<AdvancingFrontGuidanceFieldPointType> single_color2(
         this->mls_cloud_, 0, 255, 0);
-    viewer_->addPointCloud<pcl::AdvancingFrontGuidanceFieldPointType>(
-        this->mls_cloud_, single_color2, "mls_cloud2", v4);
+    viewer_->addPointCloud<AdvancingFrontGuidanceFieldPointType>(this->mls_cloud_, single_color2, "mls_cloud2", v4);
 
     viewer_->registerKeyboardCallback(&AdvancingFrontDebugTool<PointNT>::keyboardEventOccurred, *this);
     viewer_->spin();

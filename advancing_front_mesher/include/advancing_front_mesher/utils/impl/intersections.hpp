@@ -31,62 +31,53 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: test_plane_intersection.cpp 5686 2012-05-11 20:59:00Z gioia $
+ * $Id$
+ *
  */
 
-#include <pcl_advancing_front/utils/intersections.h>
+#pragma once
 
-#include <gtest/gtest.h>
-#include <pcl/common/common.h>
-#include <pcl/pcl_tests.h>
+#include <pcl/pcl_macros.h>
+#include <pcl/console/print.h>
 
-using namespace pcl;
+//////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-TEST(PCL, lineWithPlaneIntersection)
+namespace industrial_pcl
 {
-  using pcl::lineWithPlaneIntersection;
-  using pcl::LineWithPlaneIntersectionResults;
-
-  Eigen::Vector3f l[2], u, v, origin;
-  l[0] << 0.5, 0.5, -0.5;
-  l[1] << 0.5, 0.5, 0.5;
-
-  origin << 0.0, 0.0, 0.0;
-  u << 1.0, 0.0, 0.0;
-  v << 0.0, 1.0, 0.0;
-
-  LineWithPlaneIntersectionResults results = lineWithPlaneIntersection(l[0], l[1], origin, u, v);
-
-  EXPECT_FLOAT_EQ(results.mu, 0.5);
-  EXPECT_FLOAT_EQ(results.mv, 0.5);
-  EXPECT_FLOAT_EQ(results.mw, 0.5);
-  EXPECT_TRUE(results.p.isApprox(Eigen::Vector3f(0.5, 0.5, 0.0), 1e-10));
-  EXPECT_FALSE(results.parallel);
-}
-
-TEST(PCL, lineWithPlaneIntersectionParallel)
+LineWithPlaneIntersectionResults lineWithPlaneIntersection(const Eigen::Vector3f& p1,
+                                                           const Eigen::Vector3f& p2,
+                                                           const Eigen::Vector3f& origin,
+                                                           const Eigen::Vector3f& u,
+                                                           const Eigen::Vector3f& v)
 {
-  using pcl::lineWithPlaneIntersection;
-  using pcl::LineWithPlaneIntersectionResults;
+  LineWithPlaneIntersectionResults results;
+  results.points[0] = p1;
+  results.points[1] = p2;
+  results.w = p2 - p1;
+  results.parallel = false;
 
-  Eigen::Vector3f l[2], u, v, origin;
-  l[0] << 0.0, 0.0, 0.5;
-  l[1] << 1.0, 0.0, 0.5;
+  results.origin = origin;
+  results.u = u;
+  results.v = v;
+  Eigen::Vector3f normal = u.cross(v).normalized();
 
-  origin << 0.0, 0.0, 0.0;
-  u << 1.0, 0.0, 0.0;
-  v << 0.0, 1.0, 0.0;
+  if (std::abs(normal.dot(results.w.normalized())) < 1.0e-8)
+  {
+    results.parallel = true;
+  }
+  else
+  {
+    Eigen::Matrix3f m;
+    m << u, v, -results.w;
 
-  LineWithPlaneIntersectionResults results = lineWithPlaneIntersection(l[0], l[1], origin, u, v);
+    Eigen::Vector3f t = p1 - origin;
+    Eigen::Vector3f muvw = m.lu().solve(t);
+    results.mu = muvw[0];
+    results.mv = muvw[1];
+    results.mw = muvw[2];
 
-  EXPECT_TRUE(results.parallel);
+    results.p = results.points[0] + results.mw * results.w;
+  }
+  return results;
 }
-
-//* ---[ */
-int main(int argc, char** argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return (RUN_ALL_TESTS());
-}
-/* ]--- */
+}  // namespace industrial_pcl

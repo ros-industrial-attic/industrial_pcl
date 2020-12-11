@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.5.1)
-project(pcl_advancing_front VERSION 0.1.0 LANGUAGES CXX)
+project(advancing_front_mesher VERSION 0.1.0 LANGUAGES CXX)
 
 find_package(cmake_common_scripts REQUIRED)
 find_package(PCL REQUIRED COMPONENTS common surface visualization io console)
+
 if(PCL_FOUND AND PCL_VERSION VERSION_LESS 1.9)
   message(WARNING "The minimum required version of PCL is 1.9, but found ${PCL_VERSION} in path first. Checking for exactly 1.9")
   find_package(PCL REQUIRED 1.9 COMPONENTS common surface visualization io console)

@@ -31,50 +31,57 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id$
- *
+ * $Id: test_plane_intersection.cpp 5686 2012-05-11 20:59:00Z gioia $
  */
 
-#pragma once
+#include <advancing_front_mesher/utils/intersections.h>
 
-#include <pcl/pcl_macros.h>
-#include <pcl/console/print.h>
+#include <gtest/gtest.h>
+#include <pcl/common/common.h>
+#include <pcl/pcl_tests.h>
 
-//////////////////////////////////////////////////////////////////////////////////////////
+using namespace industrial_pcl;
+using namespace pcl;
 
-pcl::LineWithPlaneIntersectionResults pcl::lineWithPlaneIntersection(const Eigen::Vector3f& p1,
-                                                                     const Eigen::Vector3f& p2,
-                                                                     const Eigen::Vector3f& origin,
-                                                                     const Eigen::Vector3f& u,
-                                                                     const Eigen::Vector3f& v)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+TEST(PCL, lineWithPlaneIntersection)
 {
-  LineWithPlaneIntersectionResults results;
-  results.points[0] = p1;
-  results.points[1] = p2;
-  results.w = p2 - p1;
-  results.parallel = false;
+  Eigen::Vector3f l[2], u, v, origin;
+  l[0] << 0.5, 0.5, -0.5;
+  l[1] << 0.5, 0.5, 0.5;
 
-  results.origin = origin;
-  results.u = u;
-  results.v = v;
-  Eigen::Vector3f normal = u.cross(v).normalized();
+  origin << 0.0, 0.0, 0.0;
+  u << 1.0, 0.0, 0.0;
+  v << 0.0, 1.0, 0.0;
 
-  if (std::abs(normal.dot(results.w.normalized())) < 1.0e-8)
-  {
-    results.parallel = true;
-  }
-  else
-  {
-    Eigen::Matrix3f m;
-    m << u, v, -results.w;
+  LineWithPlaneIntersectionResults results = lineWithPlaneIntersection(l[0], l[1], origin, u, v);
 
-    Eigen::Vector3f t = p1 - origin;
-    Eigen::Vector3f muvw = m.lu().solve(t);
-    results.mu = muvw[0];
-    results.mv = muvw[1];
-    results.mw = muvw[2];
-
-    results.p = results.points[0] + results.mw * results.w;
-  }
-  return results;
+  EXPECT_FLOAT_EQ(results.mu, 0.5);
+  EXPECT_FLOAT_EQ(results.mv, 0.5);
+  EXPECT_FLOAT_EQ(results.mw, 0.5);
+  EXPECT_TRUE(results.p.isApprox(Eigen::Vector3f(0.5, 0.5, 0.0), 1e-10f));
+  EXPECT_FALSE(results.parallel);
 }
+
+TEST(PCL, lineWithPlaneIntersectionParallel)
+{
+  Eigen::Vector3f l[2], u, v, origin;
+  l[0] << 0.0, 0.0, 0.5;
+  l[1] << 1.0, 0.0, 0.5;
+
+  origin << 0.0, 0.0, 0.0;
+  u << 1.0, 0.0, 0.0;
+  v << 0.0, 1.0, 0.0;
+
+  LineWithPlaneIntersectionResults results = lineWithPlaneIntersection(l[0], l[1], origin, u, v);
+
+  EXPECT_TRUE(results.parallel);
+}
+
+//* ---[ */
+int main(int argc, char** argv)
+{
+  testing::InitGoogleTest(&argc, argv);
+  return (RUN_ALL_TESTS());
+}
+/* ]--- */

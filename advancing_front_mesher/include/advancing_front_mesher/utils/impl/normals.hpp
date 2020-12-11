@@ -41,7 +41,9 @@
 
 #include <pcl/console/print.h>
 
-bool pcl::alignNormals(Eigen::Ref<Eigen::Vector3f> pn, const Eigen::Ref<const Eigen::Vector3f>& av)
+namespace industrial_pcl
+{
+bool alignNormals(Eigen::Ref<Eigen::Vector3f> pn, const Eigen::Ref<const Eigen::Vector3f>& av)
 {
   if (pn.dot(av) < 0.0f)
   {
@@ -52,7 +54,7 @@ bool pcl::alignNormals(Eigen::Ref<Eigen::Vector3f> pn, const Eigen::Ref<const Ei
   return (false);
 }
 
-bool pcl::checkNormalsEqual(const Eigen::Vector3f& n1, const Eigen::Vector3f& n2, const double& angle_threshold)
+bool checkNormalsEqual(const Eigen::Vector3f& n1, const Eigen::Vector3f& n2, const double& angle_threshold)
 {
   double denom = n1.norm() * n2.norm();
   if (denom == 0.0)
@@ -65,3 +67,5 @@ bool pcl::checkNormalsEqual(const Eigen::Vector3f& n1, const Eigen::Vector3f& n2
     return (std::acos(n1.dot(n2) / denom) <= angle_threshold);
   }
 }
+
+}  // namespace industrial_pcl

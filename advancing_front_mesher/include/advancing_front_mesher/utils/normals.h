@@ -3,6 +3,7 @@
  *
  * Point Cloud Library (PCL) - www.pointclouds.org
  * Copyright (c) 2017-, Southwest Research Institute
+ * Copyright (c) 2017-, Open Perception, Inc.
  *
  * All rights reserved.
  *
@@ -36,48 +37,27 @@
  * $Id$
  *
  */
+#pragma once
 
-#include <gtest/gtest.h>
-#include <pcl/point_cloud.h>
-#include <pcl_advancing_front/advancing_front.h>
+/**
+ * \file pcl/common/normals.h
+ * Define methods related to normals
+ * \ingroup common
+ */
+#include <pcl/point_types.h>
 
-// This test shows the results of meshing on a square grid that has a sinusoidal
-// variability in the z axis.  Red arrows show the surface normal for each triangle
-// in the mesh, and cyan boxes show the points used to seed the mesh creation algorithm
-TEST(PCL, AdvancingFront)
+namespace industrial_pcl
 {
-  pcl::PointCloud<pcl::PointXYZ> cloud;
-  int gridSize = 50;
+/** \brief Align pn's normal with av so they point in the same direction */
+bool alignNormals(Eigen::Ref<Eigen::Vector3f> pn, const Eigen::Ref<const Eigen::Vector3f>& av);
 
-  for (unsigned int x = 0; x < gridSize; x++)
-  {
-    for (unsigned int y = 0; y < gridSize; y++)
-    {
-      double d = 0.001 * ((double)rand() / (double)RAND_MAX);
-      pcl::PointXYZ pt(x / 10.0, y / 10.0, 0.5 * cos(double(x) / 10.0) - 0.5 * sin(double(y) / 10.0) + d);
-      cloud.push_back(pt);
-    }
-  }
-  cloud.is_dense = false;
+/** \brief Check if two normals are within a tolerance
+ * \param[in] n1 First normal.
+ * \param[in] n2 Second normal.
+ * \param[in] angle_threshold The angle threshold in radians.
+ */
+bool checkNormalsEqual(const Eigen::Vector3f& n1, const Eigen::Vector3f& n2, const double& angle_threshold);
 
-  pcl::AdvancingFront<pcl::PointXYZ> mesher;
-  pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud(new pcl::PointCloud<pcl::PointXYZ>(cloud));
-  pcl::PolygonMesh output;
+}  // namespace industrial_pcl
 
-  mesher.setRho(0.5);
-  mesher.setReduction(0.8);
-  mesher.setSearchRadius(1);
-  mesher.setPolynomialOrder(2);
-  mesher.setBoundaryAngleThreshold(M_PI_2);
-  mesher.setInputCloud(in_cloud);
-  mesher.reconstruct(output);
-
-  EXPECT_TRUE(output.polygons.size() == 93);
-}
-
-// Run all the tests that were declared with TEST()
-int main(int argc, char** argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+#include "impl/normals.hpp"

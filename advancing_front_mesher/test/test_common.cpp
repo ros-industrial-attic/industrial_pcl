@@ -36,20 +36,17 @@
  * $Id$
  *
  */
-#include <pcl_advancing_front/utils/normals.h>
-#include <pcl_advancing_front/utils/distances.h>
-#include <pcl_advancing_front/utils/intersections.h>
+#include <advancing_front_mesher/utils/normals.h>
+#include <advancing_front_mesher/utils/distances.h>
+#include <advancing_front_mesher/utils/intersections.h>
 
 #include <gtest/gtest.h>
 #include <pcl/pcl_tests.h>
 #include <pcl/common/common.h>
-//#include <pcl/common/distances.h>
-//#include <pcl/common/intersections.h>
-//#include <pcl/common/io.h>
-//#include <pcl/common/eigen.h>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
 
+using namespace industrial_pcl;
 using namespace pcl;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,8 +83,6 @@ TEST(PCL, Common)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 TEST(PCL, pointToLineSegmentDistance)
 {
-  using pcl::pointToLineSegmentDistance;
-  using pcl::PointToLineSegmentDistanceResults;
   Eigen::Vector3f lp1(0.0, 0.0, 0.0);
   Eigen::Vector3f lp2(1.0, 0.0, 0.0);
   Eigen::Vector3f p(0.5, 1.0, 0.0);
@@ -99,8 +94,6 @@ TEST(PCL, pointToLineSegmentDistance)
 
 TEST(PCL, pointToLineSegmentDistanceLeftBound)
 {
-  using pcl::pointToLineSegmentDistance;
-  using pcl::PointToLineSegmentDistanceResults;
   Eigen::Vector3f lp1(0.0, 0.0, 0.0);
   Eigen::Vector3f lp2(1.0, 0.0, 0.0);
   Eigen::Vector3f p(-0.5, 1.0, 0.0);
@@ -112,8 +105,6 @@ TEST(PCL, pointToLineSegmentDistanceLeftBound)
 
 TEST(PCL, pointToLineSegmentDistanceRightBound)
 {
-  using pcl::pointToLineSegmentDistance;
-  using pcl::PointToLineSegmentDistanceResults;
   Eigen::Vector3f lp1(0.0, 0.0, 0.0);
   Eigen::Vector3f lp2(1.0, 0.0, 0.0);
   Eigen::Vector3f p(1.5, 1.0, 0.0);
@@ -125,9 +116,6 @@ TEST(PCL, pointToLineSegmentDistanceRightBound)
 
 TEST(PCL, lineSegmentToLineSegmentDistance)
 {
-  using pcl::lineSegmentToLineSegmentDistance;
-  using pcl::LineSegmentToLineSegmentDistanceResults;
-
   Eigen::Vector3f l1[2], l2[2];
 
   l1[0] << 0.0, 0.0, 0.0;
@@ -147,9 +135,6 @@ TEST(PCL, lineSegmentToLineSegmentDistance)
 
 TEST(PCL, lineSegmentToLineSegmentDistanceParallel)
 {
-  using pcl::lineSegmentToLineSegmentDistance;
-  using pcl::LineSegmentToLineSegmentDistanceResults;
-
   Eigen::Vector3f l1[2], l2[2];
 
   l1[0] << 0.0, 0.0, 0.0;
