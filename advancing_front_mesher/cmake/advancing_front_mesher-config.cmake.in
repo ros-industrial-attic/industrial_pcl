@@ -3,8 +3,8 @@
 set(@PROJECT_NAME@_FOUND ON)
 
 include(CMakeFindDependencyMacro)
-find_dependency(PCL)
-find_dependency(Boost)
 find_dependency(ros_industrial_cmake_boilerplate)
+find_dependency(PCL)
+find_dependency(OpenMP)
 
 include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake")
