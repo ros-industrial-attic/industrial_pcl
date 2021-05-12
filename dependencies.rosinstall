@@ -1,4 +1,4 @@
 - git:
-    local-name: cmake_common_scripts
-    uri: https://github.com/marip8/cmake_common_scripts.git
-    version: 4a583e7abb4aea528df8eca90c7377cbba728085
+    local-name: ros_industrial_cmake_boilerplate
+    uri: https://github.com/ros-industrial/ros_industrial_cmake_boilerplate.git
+    version: 0.2.9
