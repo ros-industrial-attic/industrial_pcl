@@ -10,7 +10,7 @@
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>cmake_common_scripts</depend>
+  <depend>ros_industrial_cmake_boilerplate</depend>
   <depend>libpcl-all-dev</depend>
   <depend>gtest</depend>
 

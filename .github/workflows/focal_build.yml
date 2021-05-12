@@ -21,7 +21,7 @@ jobs:
       ROS_DISTRO: noetic
       ROS_REPO: main
       UPSTREAM_WORKSPACE: 'dependencies.rosinstall'
-      ROSDEP_SKIP_KEYS: 'cmake_common_scripts'
+      ROSDEP_SKIP_KEYS: 'ros_industrial_cmake_boilerplate'
       DOCKER_IMAGE: 'ros:noetic'
       TARGET_CMAKE_ARGS: '-DINDUSTRIAL_PCL_BUILD_TESTS=ON'
       AFTER_SCRIPT: 'cd $target_ws/build/advancing_front_mesher && ctest -V'

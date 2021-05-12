@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(advancing_front_mesher VERSION 0.1.0 LANGUAGES CXX)
 
-find_package(cmake_common_scripts REQUIRED)
+find_package(ros_industrial_cmake_boilerplate REQUIRED)
 find_package(PCL REQUIRED COMPONENTS common surface visualization io console)
 
 if(PCL_FOUND AND PCL_VERSION VERSION_LESS 1.9)
