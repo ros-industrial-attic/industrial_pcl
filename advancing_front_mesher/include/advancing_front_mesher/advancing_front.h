@@ -81,7 +81,11 @@ protected:
     using HalfEdgeData = int;
     using EdgeData = int;
     using FaceData = pcl::PointNormal;
+#ifdef PCL_LESS_1_10
+    using IsManifold = boost::true_type;
+#else
     using IsManifold = std::true_type;
+#endif
   };
 
   using Mesh = pcl::geometry::PolygonMesh<MeshTraits>;

@@ -13,7 +13,6 @@ endif()
 add_library(${PROJECT_NAME} SHARED
   src/advancing_front.cpp
 )
-target_compile_options(${PROJECT_NAME} PUBLIC)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
 target_include_directories(${PROJECT_NAME} PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
@@ -21,6 +20,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PCL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${PCL_LIBRARIES})
 target_cxx_version(${PROJECT_NAME} PRIVATE VERSION 14)
+if(PCL_VERSION VERSION_LESS 1.10)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC -DPCL_LESS_1_10)
+endif()
 
 # Add OpenMP support, if available
 find_package(OpenMP)
