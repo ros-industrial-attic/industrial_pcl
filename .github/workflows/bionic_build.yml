@@ -1,0 +1,32 @@
+name: Bionic-Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  industrial_ci:
+    name: Melodic
+    runs-on: ubuntu-latest
+    env:
+      CI_NAME: Bionic-Build
+      OS_NAME: ubuntu
+      OS_CODE_NAME: bionic
+      ROS_DISTRO: melodic
+      ROS_REPO: main
+      BEFORE_INSTALL_UPSTREAM_DEPENDENCIES: '.github/workflows/.bionic_install_pcl_ppa.sh'
+      UPSTREAM_WORKSPACE: 'dependencies.rosinstall'
+      ROSDEP_SKIP_KEYS: 'ros_industrial_cmake_boilerplate'
+      DOCKER_IMAGE: 'ros:melodic'
+      TARGET_CMAKE_ARGS: '-DINDUSTRIAL_PCL_BUILD_TESTS=ON'
+      AFTER_SCRIPT: 'cd $target_ws/build/advancing_front_mesher && ctest -V'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: 'ros-industrial/industrial_ci@master'
+        env: ${{env}}
